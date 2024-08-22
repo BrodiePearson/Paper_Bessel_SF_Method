@@ -1,1 +1,6 @@
 *.mat
+*.jld2
+*.mp4
+*.png
+*.jpg
+*checkpoint.ipynb
