@@ -21,6 +21,8 @@ k_Enstrophy_Cascade_End = 4e2;
 r_Enstrophy_Cascade_End = 2*pi/k_Enstrophy_Cascade_End;
 
 k_forcing_estimate = 1e1;
+forcing_k = 1e2;
+max_energy_cascade_k = 1e1;
 r_forcing_estimate = 2*pi/k_forcing_estimate;
 path = "../analysis/processed_data/";
 
@@ -368,4 +370,121 @@ patch(Patch_k_Bounds, ...
 xlabel('Wavenumber K (rad m^{-1})')
 ylim([ymin, ymax]);
 title('SF_{L \omega \omega}')
+set(gca,'fontsize', size_of_font);
+
+
+
+%% Create simple plots for main paper text
+
+h7=figure(20)
+set(h7,'Position',[10 10 1400 500])
+ymin = -1.5e-5;
+ymax = 1e-5;
+xmin = 0.7;
+xmax = 1000;
+
+% Advective velocity SFs
+
+bessel_energy_adv_vel_alldirections = ...
+    cat(3,bessel_energy_adv_vel_Z, bessel_energy_adv_vel_M, ...
+    bessel_energy_adv_vel_D, bessel_energy_adv_vel_OD);
+
+patch_upper_bound = mean(bessel_energy_adv_vel_alldirections, 3) + ...
+    std(bessel_energy_adv_vel_alldirections, 1, 3);
+
+patch_lower_bound = mean(bessel_energy_adv_vel_alldirections, 3) - ...
+    std(bessel_energy_adv_vel_alldirections, 1, 3);
+
+subplot(1,2,1)
+Bessel_SFveladv_Flux = semilogx(K, ...
+    mean(bessel_energy_adv_vel_alldirections, 3),'r-', 'Linewidth', 2);
+hold on
+
+patch(Patch_k_Bounds, ...
+    [patch_upper_bound'; ...
+    flipud(patch_lower_bound')]', ...
+    'r', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
+
+SFadv_vel_energy_Flux = semilogx(J_1_maximum./R_beta,-0.5*Along_beta.velveladv(:,1),'r--', 'Linewidth', 1);
+
+Energy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.Energy_Flux ,'k-', 'Linewidth', 5);
+Bessel_SFveladv_Flux = semilogx(K, ...
+    mean(bessel_energy_adv_vel_alldirections, 3),'r-', 'Linewidth', 2);
+plot([forcing_k, forcing_k], [ymin, ymax], 'k--', 'Linewidth', 2)
+%plot([max_energy_cascade_k, max_energy_cascade_k], [ymin, ymax], 'k--', 'Linewidth', 2)
+plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
+
+semilogx(K, ...
+    mean(bessel_energy_adv_vel_alldirections, 3),'r-', 'Linewidth', 2);
+xlabel('Wavenumber K (rad m^{-1})')
+ylabel('Spectral Flux (m^2 s^{-3})')
+ylim([ymin, ymax]);
+xlim([xmin, xmax]);
+legend([Energy_Flux Bessel_SFveladv_Flux SFadv_vel_energy_Flux], ...
+    'Actual Flux','Bessel Method: SF_{Au}','Traditional Method: SF_{Au}',...
+    'Location','NorthEast');
+title("Kinetic Energy")
+set(gca,'fontsize', size_of_font);
+
+
+ymin = -4e-2;
+ymax = 0.12;
+
+% Advective buoyancy SFs
+
+bessel_enstrophy_adv_vort_alldirections = ...
+    cat(3,bessel_enstrophy_adv_vort_Z, bessel_enstrophy_adv_vort_M, ...
+    bessel_enstrophy_adv_vort_D, bessel_enstrophy_adv_vort_OD);
+
+bessel_enstrophy_adv_vel_alldirections = ...
+    cat(3,bessel_enstrophy_adv_vel_Z, bessel_enstrophy_adv_vel_M, ...
+    bessel_enstrophy_adv_vel_D, bessel_enstrophy_adv_vel_OD);
+
+
+subplot(1,2,2)
+Bessel_SFvortadv_Flux = semilogx(K, ...
+    mean(bessel_enstrophy_adv_vort_alldirections, 3),'r-', 'Linewidth', 2);
+hold on
+
+patch_upper_bound = mean(bessel_enstrophy_adv_vort_alldirections, 3) + ...
+    std(bessel_enstrophy_adv_vort_alldirections, 1, 3);
+patch_lower_bound = mean(bessel_enstrophy_adv_vort_alldirections, 3) - ...
+    std(bessel_enstrophy_adv_vort_alldirections, 1, 3);
+patch(Patch_k_Bounds, ...
+    [patch_upper_bound'; ...
+    flipud(patch_lower_bound')]', ...
+    'r', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
+
+Bessel_SFveladv_Flux = semilogx(K, ...
+    mean(bessel_enstrophy_adv_vel_alldirections, 3),'b-', 'Linewidth', 2);
+
+patch_upper_bound = mean(bessel_enstrophy_adv_vel_alldirections, 3) + ...
+    std(bessel_enstrophy_adv_vel_alldirections, 1, 3);
+patch_lower_bound = mean(bessel_enstrophy_adv_vel_alldirections, 3) - ...
+    std(bessel_enstrophy_adv_vel_alldirections, 1, 3);
+patch(Patch_k_Bounds, ...
+    [patch_upper_bound'; ...
+    flipud(patch_lower_bound')]', ...
+    'b', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
+
+SFvort_enstrophy_Flux = semilogx(J_1_maximum./R_beta,-0.5*Along_beta.vortvortadv(:,1),'r--', 'Linewidth', 1);
+
+SFvel_enstrophy_Flux = semilogx(J_2_3_function_minimum./R_beta,2*Along_beta.velveladv(:,1)./(R_beta.^2),'b--', 'Linewidth', 1);
+
+Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.Enstrophy_Flux , 'k-', 'Linewidth', 5);
+plot([forcing_k, forcing_k], [ymin, ymax], 'k--', 'Linewidth', 2)
+%plot([max_energy_cascade_k, max_energy_cascade_k], [ymin, ymax], 'k--', 'Linewidth', 2)
+plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
+
+semilogx(K, mean(bessel_enstrophy_adv_vort_alldirections, 3),'r-', 'Linewidth', 2);
+
+ylabel('Spectral Flux (s^{-3})')
+legend([Enstrophy_Flux Bessel_SFvortadv_Flux Bessel_SFveladv_Flux SFvort_enstrophy_Flux SFvel_enstrophy_Flux], ...
+    'Actual Flux','Bessel Method: SF_{A\omega}', ...
+    'Bessel Method: SF_{Au}', 'Traditional Method: SF_{A\omega}', ...
+    'Traditional Method: SF_{Au}','Location','NorthWest');
+xlabel('Wavenumber K (rad m^{-1})')
+ylim([ymin, ymax]);
+xlim([xmin, xmax]);
+title("Enstrophy")
 set(gca,'fontsize', size_of_font);
