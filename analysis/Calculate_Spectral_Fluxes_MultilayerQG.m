@@ -2,7 +2,7 @@
 
 clear all
 
-nx = "1024";
+nx = "256";
 hyperviscosity = "1.0e-17";
 hyperviscosity_order = "8";
 hypoviscosity = "0.005";
@@ -15,21 +15,9 @@ endtime = "30000.0";
 % So remove files that are before time = 1000
 start_file = 17; %Time = 40 or 2/mu which is when the simulation equilibrates
 
-if exist('beta','var')
-    experiment_name = "SurfaceQG_n_" + nx + ...
-        "_visc_" + hyperviscosity + ...
-        "_order_" + hyperviscosity_order + ...
-        "_hypovisc_" + hypoviscosity + ...
-        "_order_" + hypoviscosity_order + ...
-        "_kf_" + forcing_wavenumber + ...
-        "_F_" + forcing_rate + ...
-        "_endtime_" + endtime + ...
-        "_beta_" + beta ;
-else
-    experiment_name = "multilayerqg_2layer_" + nx ;
-end
+experiment_name = "multilayerqg_2layer_" + nx ;
 
-filedir = "/Users/brodiepearson/GitHub/GeophysicalFlows.jl/src/data_2layer/";
+filedir = "../simulations/QG_simulations/data_2layer/";
 
 files = dir(filedir + experiment_name +"_*.mat");
 
@@ -269,7 +257,7 @@ Spectral_Flux.Time_of_snapshots = time;
 
 %% Save Structure Functions and their errors into a .mat file
 
-save("Spectral_Fluxes_" + experiment_name +".mat",'-struct','Spectral_Flux','-v7.3');
+save("Spectral_Fluxes_" + experiment_name +"_256.mat",'-struct','Spectral_Flux','-v7.3');
 
 %% Plot spectral fluxes in spectral space
 
@@ -349,9 +337,9 @@ semilogx(Spectral_Flux.Wavenumber, ...
 semilogx(Spectral_Flux.Wavenumber, ...
     Spectral_Flux.qq_Flux-Spectral_Flux.qq_Flux_std,'k:')
 semilogx(Spectral_Flux.Wavenumber, ...
-    quantile(Spectral_Flux.qq_Flux_snapshots,0.75,2),'b--')
+    quantile(squeeze(Spectral_Flux.qq_Flux_snapshots(:,1,:)),0.75,2),'b--')
 semilogx(Spectral_Flux.Wavenumber, ...
-    quantile(Spectral_Flux.qq_Flux_snapshots,0.25,2),'b--')
+    quantile(squeeze(Spectral_Flux.qq_Flux_snapshots(:,1,:)),0.25,2),'b--')
 % semilogx([7 max(Spectral_Flux.Wavenumber)], ...
 %     mean(Spectral_Flux.qq_Diss_Rate, 'omitnan')*[1 1], 'r-','LineWidth',4)
 % semilogx([min(Spectral_Flux.Wavenumber) 7], ...
@@ -406,7 +394,7 @@ a2=semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.qq_Flux_fd,'b-','LineWidth',2
 a3=semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.qq_Flux_fd_flip,'r-','LineWidth',2);
 title('Flux of buoyancy variance')
 xlim([min(Spectral_Flux.Wavenumber) max(Spectral_Flux.Wavenumber)])
-legend([a1 a2 a3], 'Spectral derivatives', 'Finite diff. (small-k zeroed)', 'Finite diff. (large-k zeroed)')
+%legend([a1 a2 a3], 'Spectral derivatives', 'Finite diff. (small-k zeroed)', 'Finite diff. (large-k zeroed)')
 set(gca,'FontSize', 18)
 
 subplot(1,2,2)
