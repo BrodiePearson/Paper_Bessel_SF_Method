@@ -3,9 +3,13 @@
 clear all
 
 size_of_font = 20;
+legend_font_size = 14;
 J_1_maximum = 2;
 J_2_maximum = 3.1;
 J_3_maximum = 4.3;
+
+xmin = 0.7;
+xmax = 250;
 
 Rossby_deformation_radius=0.35;
 Rossby_deformation_k = 2*pi/Rossby_deformation_radius;
@@ -261,11 +265,11 @@ for layer_no=1:2
 
 %% QG Enstrophy Flux plots
 
-h7=figure(11+layer_no)
-set(h7,'Position',[10 10 2000 500])
+h7=figure(10+layer_no)
+set(h7,'Position',[10 10 2000 1000])
 
 ymin = -1e5;
-ymax = 3e5;
+ymax = 5e5;
 if layer_no==2
     ymin = -0.5e4;
     ymax = 1.5e4;
@@ -273,7 +277,7 @@ end
 
 % Advective vorticity SFs
 
-subplot(1,3,1)
+subplot(2,3,4)
 Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.qq_Flux(:,layer_no), 'k-', 'Linewidth', 3);
 hold on
 Bessel_SFadv_Flux = semilogx(K,bessel_enstrophy_adv_q_Z,'r-', 'Linewidth', 2);
@@ -286,23 +290,25 @@ SFvort_Flux = semilogx(J_1_maximum./R_Intermediate,-0.5*Intermediate_1.qqadv(:,l
 SFvort_Flux = semilogx(J_1_maximum./R_Intermediate,-0.5*Intermediate_2.qqadv(:,layer_no),'b-', 'Linewidth', 0.5);
 Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.qq_Flux(:,layer_no), 'k-', 'Linewidth', 5);
 plot([Rossby_deformation_k, Rossby_deformation_k], [ymin, ymax], 'k:', 'Linewidth', 2)
-patch(Patch_k_Bounds, ...
-    [Spectral_Flux.qq_Flux_max(:,layer_no); ...
-    flipud(Spectral_Flux.qq_Flux_min(:,layer_no))]', ...
-    'k', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
-ylabel('Spectral qq/2 flux (s^{-3})')
-legend([Enstrophy_Flux Bessel_SFadv_Flux ...
-    SFvort_Flux],'qq/2 Flux','Bessel Method', ...
-    'Basic Method' ,'Location','NorthWest');
+% patch(Patch_k_Bounds, ...
+%     [Spectral_Flux.qq_Flux_max(:,layer_no); ...
+%     flipud(Spectral_Flux.qq_Flux_min(:,layer_no))]', ...
+%     'k', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
+ylabel('\Pi_K^q or \Pi_K^{\omega} (s^{-3})')
+% legend([Enstrophy_Flux Bessel_SFadv_Flux ...
+%     SFvort_Flux],'Actual Flux','Bessel Method', ...
+%     'Basic Method' ,'Location','NorthWest');
+plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 xlabel('Wavenumber K (rad m^{-1})')
 ylim([ymin, ymax]);
-title("SF_{Aq} (Layer "+layer_no+")")
+xlim([xmin, xmax]);
+title("SF_{Aq}")
 set(gca,'fontsize', size_of_font);
 
 % Advective velocity SFs
 
-subplot(1,3,2)
-Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.qq_Flux(:,layer_no), 'k-', 'Linewidth', 3);
+subplot(2,3,5)
+Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.vortvort_Flux(:,layer_no), 'k-', 'Linewidth', 3);
 hold on
 Bessel_SFadv_Flux = semilogx(K,bessel_enstrophy_adv_vort_Z,'r-', 'Linewidth', 2);
 semilogx(K,bessel_enstrophy_adv_vort_M,'r-', 'Linewidth', 2);
@@ -312,20 +318,22 @@ SFvort_Flux = semilogx(J_1_maximum./R_beta,-0.5*Along_beta.vortvortadv(:,layer_n
 SFvort_Flux = semilogx(J_1_maximum./R_beta,-0.5*Across_beta.vortvortadv(:,layer_no),'b-', 'Linewidth', 0.5);
 SFvort_Flux = semilogx(J_1_maximum./R_Intermediate,-0.5*Intermediate_1.vortvortadv(:,layer_no),'b-', 'Linewidth', 0.5);
 SFvort_Flux = semilogx(J_1_maximum./R_Intermediate,-0.5*Intermediate_2.vortvortadv(:,layer_no),'b-', 'Linewidth', 0.5);
-Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.qq_Flux(:,layer_no), 'k-', 'Linewidth', 5);
+Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.vortvort_Flux(:,layer_no), 'k-', 'Linewidth', 5);
 plot(2*pi./R_beta, ymin, 'k.')
 plot([Rossby_deformation_k, Rossby_deformation_k], [ymin, ymax], 'k:', 'Linewidth', 2)
-patch(Patch_k_Bounds, ...
-    [Spectral_Flux.qq_Flux_max(:,layer_no); ...
-    flipud(Spectral_Flux.qq_Flux_min(:,layer_no))]', ...
-    'k', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
+% patch(Patch_k_Bounds, ...
+%     [Spectral_Flux.qq_Flux_max(:,layer_no); ...
+%     flipud(Spectral_Flux.qq_Flux_min(:,layer_no))]', ...
+%     'k', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
+plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 xlabel('Wavenumber K (rad m^{-1})')
 ylim([ymin, ymax]);
-title("SF_{A\omega} (Layer "+layer_no+")")
+xlim([xmin, xmax]);
+title("SF_{A\omega}")
 set(gca,'fontsize', size_of_font);
 
-subplot(1,3,3)
-Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.qq_Flux(:,layer_no), 'k-', 'Linewidth', 3);
+subplot(2,3,6)
+Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.vortvort_Flux(:,layer_no), 'k-', 'Linewidth', 3);
 hold on
 semilogx(K,bessel_enstrophy_Lvortvort_Z,'r-', 'Linewidth', 2);
 semilogx(K,bessel_enstrophy_Lvortvort_M,'r-', 'Linewidth', 2);
@@ -335,31 +343,33 @@ semilogx(J_2_maximum./R_beta,-0.5*Along_beta.vortvortL(:,layer_no)./(R_beta),'b-
 semilogx(J_2_maximum./R_beta,-0.5*Across_beta.vortvortL(:,layer_no)./(R_beta),'b-', 'Linewidth', 0.5);
 semilogx(J_2_maximum./R_Intermediate,-0.5*Intermediate_1.vortvortL(:,layer_no)./(R_Intermediate),'b-', 'Linewidth', 0.5);
 semilogx(J_2_maximum./R_Intermediate,-0.5*Intermediate_2.vortvortL(:,layer_no)./(R_Intermediate),'b-', 'Linewidth', 0.5);
-Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.qq_Flux(:,layer_no), 'k-', 'Linewidth', 5);
+Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.vortvort_Flux(:,layer_no), 'k-', 'Linewidth', 5);
 plot([Rossby_deformation_k, Rossby_deformation_k], [ymin, ymax], 'k:', 'Linewidth', 2)
-patch(Patch_k_Bounds, ...
-    [Spectral_Flux.qq_Flux_max(:,layer_no); ...
-    flipud(Spectral_Flux.qq_Flux_min(:,layer_no))]', ...
-    'k', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
+% patch(Patch_k_Bounds, ...
+%     [Spectral_Flux.qq_Flux_max(:,layer_no); ...
+%     flipud(Spectral_Flux.qq_Flux_min(:,layer_no))]', ...
+%     'k', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
+plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 xlabel('Wavenumber K (rad m^{-1})')
 ylim([ymin, ymax]);
-title("SF_{L \omega \omega} (Layer "+layer_no+")")
+xlim([xmin, xmax]);
+title("SF_{L \omega \omega}")
 set(gca,'fontsize', size_of_font);
 
 %% QG Energy flux plots
-h7=figure(15+layer_no)
-set(h7,'Position',[10 10 2000 500])
+%h7=figure(15+layer_no)
+%set(h7,'Position',[10 10 2000 500])
 
-ymin = -400;
+ymin = -600;
 ymax = 200;
 if layer_no==2
-    ymin = -100;
+    ymin = -150;
     ymax = 50;
 end
 
 % Advective velocity SFs
 
-subplot(1,3,1)
+subplot(2,3,1)
 Energy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.KE_Flux(:,layer_no) ,'k-', 'Linewidth', 3);
 hold on
 Bessel_SFadv_Flux = semilogx(K,bessel_energy_adv_vel_Z,'r-', 'Linewidth', 2);
@@ -372,23 +382,24 @@ SFadv_Flux = semilogx(J_1_maximum./R_Intermediate,-0.5*Intermediate_1.velveladv(
 SFadv_Flux = semilogx(J_1_maximum./R_Intermediate,-0.5*Intermediate_2.velveladv(:,layer_no),'b-', 'Linewidth', 0.5);
 Energy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.KE_Flux(:,layer_no) ,'k-', 'Linewidth', 5);
 plot([Rossby_deformation_k, Rossby_deformation_k], [ymin, ymax], 'k:', 'Linewidth', 2)
-patch(Patch_k_Bounds, ...
-    [Spectral_Flux.KE_Flux_max(:,layer_no); ...
-    flipud(Spectral_Flux.KE_Flux_min(:,layer_no))]', ...
-    'k', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
-xlabel('Wavenumber K (rad m^{-1})')
-ylabel('Spectral Kinetic Energy flux (m^2 s^{-3})')
+% patch(Patch_k_Bounds, ...
+%     [Spectral_Flux.KE_Flux_max(:,layer_no); ...
+%     flipud(Spectral_Flux.KE_Flux_min(:,layer_no))]', ...
+%     'k', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
+plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
+ylabel('\Pi_K (m^2 s^{-3})')
 ylim([ymin, ymax]);
+xlim([xmin, xmax]);
 legend([Energy_Flux Bessel_SFadv_Flux ...
-     SFadv_Flux],'KE Flux','Bessel Method', ...
-    'Basic method','Location','NorthEast');
-title("SF_{Au} (Layer "+layer_no+")")
+     SFadv_Flux],'Actual Flux','Bessel Method', ...
+    'Trad. Method','Location','NorthEast');
+title("SF_{Au}")
 set(gca,'fontsize', size_of_font);
 
 
 % Third-order Lvv and Lvortvort SFs
 
-subplot(1,3,2)
+subplot(2,3,2)
 Energy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.KE_Flux(:,layer_no) ,'k-', 'Linewidth', 3);
 hold on
 semilogx(K,bessel_energy_Luu_Z,'r-', 'Linewidth', 2);
@@ -401,18 +412,19 @@ semilogx(J_2_maximum./R_Intermediate,-0.5*(Intermediate_1.LLL(:,layer_no) + Inte
 semilogx(J_2_maximum./R_Intermediate,-0.5*(Intermediate_2.LLL(:,layer_no) + Intermediate_2.TTL(:,layer_no))./R_Intermediate,'b-', 'Linewidth', 0.5);
 Energy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.KE_Flux(:,layer_no) ,'k-', 'Linewidth', 5);
 plot([Rossby_deformation_k, Rossby_deformation_k], [ymin, ymax], 'k:', 'Linewidth', 2)
-patch(Patch_k_Bounds, ...
-    [Spectral_Flux.KE_Flux_max(:,layer_no); ...
-    flipud(Spectral_Flux.KE_Flux_min(:,layer_no))]', ...
-    'k', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
-xlabel('Wavenumber K (rad m^{-1})')
+% patch(Patch_k_Bounds, ...
+%     [Spectral_Flux.KE_Flux_max(:,layer_no); ...
+%     flipud(Spectral_Flux.KE_Flux_min(:,layer_no))]', ...
+%     'k', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
+plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 ylim([ymin, ymax]);
-title("SF_{Luu} (Layer "+layer_no+")")
+xlim([xmin, xmax]);
+title("SF_{Luu}")
 set(gca,'fontsize', size_of_font);
 
 % Third-order LLL SF
 
-subplot(1,3,3)
+subplot(2,3,3)
 Energy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.KE_Flux(:,layer_no) ,'k-', 'Linewidth', 3);
 hold on
 semilogx(K,bessel_energy_LLL_Z,'r-', 'Linewidth', 2);
@@ -425,24 +437,23 @@ semilogx(J_3_maximum./R_Intermediate,-(2/3)*Intermediate_1.LLL(:,layer_no)./R_In
 semilogx(J_3_maximum./R_Intermediate,-(2/3)*Intermediate_2.LLL(:,layer_no)./R_Intermediate,'b-', 'Linewidth', 0.5);
 Energy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.KE_Flux(:,layer_no) ,'k-', 'Linewidth', 5);
 plot([Rossby_deformation_k, Rossby_deformation_k], [ymin, ymax], 'k:', 'Linewidth', 2)
-patch(Patch_k_Bounds, ...
-    [Spectral_Flux.KE_Flux_max(:,layer_no); ...
-    flipud(Spectral_Flux.KE_Flux_min(:,layer_no))]', ...
-    'k', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
-xlabel('Wavenumber K (rad m^{-1})')
+% patch(Patch_k_Bounds, ...
+%     [Spectral_Flux.KE_Flux_max(:,layer_no); ...
+%     flipud(Spectral_Flux.KE_Flux_min(:,layer_no))]', ...
+%     'k', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
+plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 ylim([ymin, ymax]);
-title("SF_{LLL} (Layer "+layer_no+")")
+xlim([xmin, xmax]);
+title("SF_{LLL}")
 set(gca,'fontsize', size_of_font);
 
 % Create simple plots for main paper text
 
 h7=figure(20+layer_no)
 set(h7,'Position',[10 10 2000 500])
-xmin = 0.7;
-xmax = 250;
 
-ymin = -300;
-ymax = 100;
+ymin = -500;
+ymax = 50;
 if layer_no==2
     ymin = -150;
     ymax = 50;
@@ -473,23 +484,24 @@ patch(Patch_k_Bounds, ...
 SFadv_Flux = semilogx(J_1_maximum./R_beta,-0.5*Along_beta.velveladv(:,layer_no),'r--', 'Linewidth', 1);
 
 Energy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.KE_Flux(:,layer_no) ,'k-', 'Linewidth', 5);
+
 plot([Rossby_deformation_k, Rossby_deformation_k], [ymin, ymax], 'k--', 'Linewidth', 2)
 plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 xlabel('Wavenumber K (rad m^{-1})')
 ylabel('Spectral Flux (m^2 s^{-3})')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
-legend([Energy_Flux Bessel_SFveladv_Flux SFadv_Flux],'Actual Flux','Bessel Method: SF_{Au}', ...
-    'Traditional Method: SF_{Au}','Location','NorthEast');
 title("Kinetic Energy (Layer "+layer_no+")")
 set(gca,'fontsize', size_of_font);
+legend([Energy_Flux Bessel_SFveladv_Flux SFadv_Flux],'Actual Flux','Bessel Method: SF_{Au}', ...
+    'Traditional Method: SF_{Au}','Location','SouthEast', 'fontsize', legend_font_size);
 
 
-ymin = -1e5;
-ymax = 2e5;
+ymin = -2e5;
+ymax = 5e5;
 if layer_no==2
-    ymin = -0.5e4;
-    ymax = 1.0e4;
+    ymin = -1e4;
+    ymax = 4e4;
 end
 
 bessel_enstrophy_adv_q_alldirections = ...
@@ -529,7 +541,7 @@ plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 ylabel('Spectral Flux (s^{-3})')
 legend([QG_Enstrophy_Flux Bessel_SFqadv_Flux SF_qadv_Flux],'Actual Flux','Bessel Method: SF_{Aq}', ...
     'Traditional Method: SF_{Aq}', ...
-    'Location','NorthWest');
+    'Location','South', 'fontsize', legend_font_size);
 xlabel('Wavenumber K (rad m^{-1})')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
@@ -574,8 +586,8 @@ semilogx(K, mean(bessel_enstrophy_adv_vort_alldirections, 3),'r-', 'Linewidth', 
 ylabel('Spectral Flux (s^{-3})')
 legend([Enstrophy_Flux ...
     Bessel_SFvortadv_Flux Bessel_SFveladv_Flux SF_vortadv_Flux SF_veladv_Flux],'Actual Flux', 'Bessel Method: SF_{A\omega}' , ...
-    'Bessel Method: SF_{Au}' , 'Traditional Method: SF_{A\omega}' , 'Bessel Method: SF_{Au}' , ...
-    'Location','NorthWest');
+    'Bessel Method: SF_{Au}' , 'Traditional Method: SF_{A\omega}' , 'Traditional Method: SF_{Au}' , ...
+    'Location','NorthWest', 'fontsize', legend_font_size);
 xlabel('Wavenumber K (rad m^{-1})')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
