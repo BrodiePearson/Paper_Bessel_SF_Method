@@ -998,8 +998,8 @@ end
 
 h7=figure(20)
 set(h7,'Position',[10 10 1400 1400])
-ymin = -300;
-ymax = 100;
+ymin = -600;
+ymax = 200;
 xmin = 0.7;
 xmax = 250;
 
@@ -1092,8 +1092,8 @@ set(gca,'fontsize', size_of_font);
 
 %% Create enstrophy cascade plots
 
-ymin = -1e5;
-ymax = 2e5;
+ymin = -2e5;
+ymax = 5e5;
 
 % Advective vorticity SFs
 
