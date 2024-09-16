@@ -125,6 +125,7 @@ for layer=1:2
         kinetic_energy(layer,nn) = S.KE(layer);
         time(layer,nn)=files(nn).datenum;
         potential_energy(nn) = S.PE;
+        vert_flux(nn) = S.Vert_flux;
     end
 end
 
@@ -134,6 +135,7 @@ ax(1) = subplot(1,3,1)
 upper_layer = plot(kinetic_energy(1,:)/0.2, 'k','LineWidth',2);
 hold on
 lower_layer = plot(kinetic_energy(2,:)/0.8, 'r','LineWidth',2);
+Vert_Flux = plot(vert_flux(:), 'r','LineWidth',2);
 %PE = plot(potential_energy(:)*10, 'b:','LineWidth',2);
 plot ([20 20], [0 3000],'k:','LineWidth',2)
 plot ([75 75], [0 3000],'k--','LineWidth',2)
@@ -181,3 +183,133 @@ hcb=colorbar
 caxis([-3e3 3e3])
 hcb.Label.String = 'QG Potential Vorticity';
 hcb.Location = 'southoutside';
+
+%% Alt panel
+
+QG_midalt = load(filedir_qg+"multilayerqg_2layer_512_beta_5.0_Ld_0.35_41.mat");
+
+h_qgmaps=figure(30)
+set(h_qgmaps,'Position',[10 10 1600 400])
+ax(1) = subplot(1,3,1)
+upper_layer = plot(kinetic_energy(1,:)/0.2, 'k','LineWidth',2);
+hold on
+lower_layer = plot(kinetic_energy(2,:)/0.8, 'r','LineWidth',2);
+%Vert_Flux = plot(vert_flux(:), 'r','LineWidth',2);
+%PE = plot(potential_energy(:)*10, 'b:','LineWidth',2);
+plot ([20 20], [0 3000],'k:','LineWidth',2)
+plot ([41 41], [0 3000],'k--','LineWidth',2)
+plot ([100 100], [0 3000],'k--','LineWidth',2)
+ylabel('Energy per unit depth (m s^{-2})')
+xlabel('Time (s)')
+legend([upper_layer lower_layer], ...
+    'Upper layer KE','Lower Layer KE', ...
+    'Location','North');
+xlim([0 105])
+set(gca,'fontsize', 14);
+
+ax(2) = subplot(1,3,2)
+imagesc(x_grid_QG(1:end),y_grid_QG(1:end), QG_midalt.q(1:end,1:end,1)')
+ylim([0 2*pi])
+xlim([0 2*pi])
+xticks([0, pi, 2*pi])
+xticklabels({'0' '\pi' '2\pi'})
+yticks([0, pi, 2*pi])
+yticklabels({'0', '\pi', '2\pi'})
+%xlabel('x (m)')
+%ylabel('y (m)')
+title('Time = 75')
+set(gca,'fontsize', 14);
+colormap(ax(2), color_bar_qgpv)
+hcb=colorbar
+caxis([-3e3 3e3])
+hcb.Label.String = 'QG Potential Vorticity';
+hcb.Location = 'southoutside';
+
+ax(3) = subplot(1,3,3)
+imagesc(x_grid_QG(1:end),y_grid_QG(1:end), QG.q(1:end,1:end,1)')
+ylim([0 2*pi])
+xlim([0 2*pi])
+xticks([0, pi, 2*pi])
+xticklabels({'0' '\pi' '2\pi'})
+yticks([0, pi, 2*pi])
+yticklabels({'0', '\pi', '2\pi'})
+%xlabel('x (m)')
+%ylabel('y (m)')
+title('Time = 100')
+set(gca,'fontsize', 14);
+colormap(ax(3), color_bar_qgpv)
+hcb=colorbar
+caxis([-3e3 3e3])
+hcb.Label.String = 'QG Potential Vorticity';
+hcb.Location = 'southoutside';
+
+
+
+
+
+%% Create a QG plot showing evolution of energy through time
+
+h_qgmaps=figure(35)
+set(h_qgmaps,'Position',[10 10 1600 400])
+
+
+QG_temp1 = load(filedir_qg+"multilayerqg_2layer_512_beta_5.0_Ld_0.35_41.mat");
+QG_temp2 = load(filedir_qg+"multilayerqg_2layer_512_beta_5.0_Ld_0.35_42.mat");
+QG_temp3 = load(filedir_qg+"multilayerqg_2layer_512_beta_5.0_Ld_0.35_43.mat");
+
+ax(1) = subplot(1,3,1)
+imagesc(x_grid_QG(1:end),y_grid_QG(1:end), QG_temp1.q(1:end,1:end,1)')
+ylim([0 2*pi])
+xlim([0 2*pi])
+xticks([0, pi, 2*pi])
+xticklabels({'0' '\pi' '2\pi'})
+yticks([0, pi, 2*pi])
+yticklabels({'0', '\pi', '2\pi'})
+%xlabel('x (m)')
+%ylabel('y (m)')
+title('Time = 100')
+set(gca,'fontsize', 14);
+colormap(ax(1), color_bar_qgpv)
+hcb=colorbar
+caxis([-3e3 3e3])
+hcb.Label.String = 'QG Potential Vorticity';
+hcb.Location = 'southoutside';
+
+ax(2) = subplot(1,3,2)
+imagesc(x_grid_QG(1:end),y_grid_QG(1:end), QG_temp2.q(1:end,1:end,1)')
+ylim([0 2*pi])
+xlim([0 2*pi])
+xticks([0, pi, 2*pi])
+xticklabels({'0' '\pi' '2\pi'})
+yticks([0, pi, 2*pi])
+yticklabels({'0', '\pi', '2\pi'})
+%xlabel('x (m)')
+%ylabel('y (m)')
+title('Time = 75')
+set(gca,'fontsize', 14);
+colormap(ax(2), color_bar_qgpv)
+hcb=colorbar
+caxis([-3e3 3e3])
+hcb.Label.String = 'QG Potential Vorticity';
+hcb.Location = 'southoutside';
+
+ax(3) = subplot(1,3,3)
+imagesc(x_grid_QG(1:end),y_grid_QG(1:end), QG_temp3.q(1:end,1:end,1)')
+ylim([0 2*pi])
+xlim([0 2*pi])
+xticks([0, pi, 2*pi])
+xticklabels({'0' '\pi' '2\pi'})
+yticks([0, pi, 2*pi])
+yticklabels({'0', '\pi', '2\pi'})
+%xlabel('x (m)')
+%ylabel('y (m)')
+title('Time = 100')
+set(gca,'fontsize', 14);
+colormap(ax(3), color_bar_qgpv)
+hcb=colorbar
+caxis([-3e3 3e3])
+hcb.Label.String = 'QG Potential Vorticity';
+hcb.Location = 'southoutside';
+
+
+
