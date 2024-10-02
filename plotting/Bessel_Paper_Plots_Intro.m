@@ -59,14 +59,14 @@ xticks([0, pi, 2*pi])
 xticklabels({'0' '\pi' '2\pi'})
 yticks([0, pi, 2*pi])
 yticklabels({'0', '\pi', '2\pi'})
-xlabel('x (m)')
-ylabel('y (m)')
+xlabel('x')
+ylabel('y')
 title('2D Turbulence')
 set(gca,'fontsize', 20);
 colormap(ax(1), color_bar_vorticity)
 hcb=colorbar
 caxis([-5 5])
-hcb.Label.String = 'Vorticity [s^{-1}]';
+hcb.Label.String = 'Vorticity';
 hcb.Location = 'southoutside';
 
 ax(2) = subplot(2,3,2)
@@ -84,7 +84,7 @@ set(gca,'fontsize', 20);
 colormap(ax(2), color_bar_buoyancy)
 hcb=colorbar
 caxis([-0.1 0.1])
-hcb.Label.String = 'Buoyancy [s^{-1}]';
+hcb.Label.String = 'Buoyancy';
 hcb.Location = 'southoutside';
 
 ax(3) = subplot(2,3,3)
@@ -102,7 +102,7 @@ set(gca,'fontsize', 20);
 colormap(ax(3), color_bar_qgpv)
 hcb=colorbar
 caxis([-1e3 1e3])
-hcb.Label.String = 'QG Potential Vorticity [s^{-1}]';
+hcb.Label.String = 'Potential Vorticity';
 hcb.Location = 'southoutside';
 
 %% Create a QG plot showing evolution of energy through time
@@ -199,8 +199,8 @@ lower_layer = plot(kinetic_energy(2,:)/0.8, 'r','LineWidth',2);
 plot ([20 20], [0 3000],'k:','LineWidth',2)
 plot ([41 41], [0 3000],'k--','LineWidth',2)
 plot ([100 100], [0 3000],'k--','LineWidth',2)
-ylabel('Energy per unit depth (m s^{-2})')
-xlabel('Time (s)')
+ylabel('Energy per unit depth')
+xlabel('Time')
 legend([upper_layer lower_layer], ...
     'Upper layer KE','Lower Layer KE', ...
     'Location','North');
@@ -217,12 +217,12 @@ yticks([0, pi, 2*pi])
 yticklabels({'0', '\pi', '2\pi'})
 %xlabel('x (m)')
 %ylabel('y (m)')
-title('Time = 75')
+title('Time = 41')
 set(gca,'fontsize', 14);
 colormap(ax(2), color_bar_qgpv)
 hcb=colorbar
 caxis([-3e3 3e3])
-hcb.Label.String = 'QG Potential Vorticity';
+hcb.Label.String = 'Potential Vorticity';
 hcb.Location = 'southoutside';
 
 ax(3) = subplot(1,3,3)
@@ -240,7 +240,7 @@ set(gca,'fontsize', 14);
 colormap(ax(3), color_bar_qgpv)
 hcb=colorbar
 caxis([-3e3 3e3])
-hcb.Label.String = 'QG Potential Vorticity';
+hcb.Label.String = 'Potential Vorticity';
 hcb.Location = 'southoutside';
 
 

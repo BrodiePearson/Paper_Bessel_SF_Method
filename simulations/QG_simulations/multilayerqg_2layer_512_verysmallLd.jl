@@ -18,7 +18,7 @@
 # ## Let's begin
 # Let's load `GeophysicalFlows.jl` and some other packages we need.
 #
-using GeophysicalFlows, CairoMakie, Printf, MAT
+using GeophysicalFlows, CairoMakie, Printf#, MAT
 
 using Random: seed!
 
@@ -32,7 +32,7 @@ nothing # hide
 # ## Numerical parameters and time-stepping parameters
 
 n = 512                  # 2D resolution = n²
-timestep_factor =8*n/128
+timestep_factor =6*n/128
 stepper = "FilteredRK4"  # timestepper
      dt = 0.5*(2.5e-3)/timestep_factor         # timestep
 #     nsteps = round( Int, 30000/dt ) #600000           # total number of time-steps [300000 for large beta, 600000 for small/no beta]
@@ -104,10 +104,10 @@ nothing # hide
 # ## Output
 
 # We choose folder for outputing `.jld2` files and snapshots (`.png` files).
-filepath = "../output/data"
+filepath = "../output/data/final_simulation"
 plotpath = "../output/media"
 plotname = "snapshots"
-videoname = "multilayerqg_2layer_"*string(n)
+videoname = "multilayerqg_2layer_"*string(n)*"_beta_"*string(β)*"_Ld_"*first(string(Lᵈ),4)
 filename = filepath*"/multilayerqg_2layer_"*string(n)*"_beta_"*string(β)*"_Ld_"*first(string(Lᵈ),4)*".jld2"
 matfilename = filepath*"/multilayerqg_2layer_"*string(n)*"_beta_"*string(β)*"_Ld_"*first(string(Lᵈ),4)
 nothing # hide

@@ -215,15 +215,15 @@ end
 
 %% SQG Energy flux plots
 h7=figure(10)
-set(h7,'Position',[10 10 2000 500])
+set(h7,'Position',[10 10 2000 1000])
 
 % Advective velocity SFs
 
-subplot(1,3,1)
+subplot(2,6,1:2)
 ymin = -2.5e-5;
 ymax = 1e-5;
 xmin = 0.7;
-xmax = 300;
+xmax = 250;
 Energy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.KE_Flux(:,1) ,'k-', 'Linewidth', 3);
 hold on
 Bessel_SFadv_Flux = semilogx(Spectral_Flux.Wavenumber,bessel_energy_adv_vel_Z,'r-', 'Linewidth', 2);
@@ -239,20 +239,21 @@ patch(Patch_k_Bounds, ...
     [Spectral_Flux.KE_Flux_max(:,1); ...
     flipud(Spectral_Flux.KE_Flux_min(:,1))]', ...
     'k', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
-xlabel('Wavenumber K (rad m^{-1})')
-ylabel('Spectral Kinetic Energy flux (m^2 s^{-3})')
+xlabel('Wavenumber K')
+ylabel('\Pi_K^u')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
 legend([Energy_Flux Bessel_SFadv_Flux ...
      SFadv_Flux],'KE Flux','Bessel Method', ...
-    'Basic method','Location','NorthEast');
-title('SF_{Au}')
+    'Traditional method','Location','North');
+txt = {'SF_{Au}-based', '\Pi_K^u estimates'};
+text(40, -1.8e-5 ,txt, fontsize=size_of_font*0.8)
 set(gca,'fontsize', size_of_font);
 
 
 % Third-order Lvv and Lvortvort SFs
 
-subplot(1,3,2)
+subplot(2,6,3:4)
 Energy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.KE_Flux(:,1) ,'k-', 'Linewidth', 3);
 hold on
 semilogx(Spectral_Flux.Wavenumber,bessel_energy_Luu_Z,'r-', 'Linewidth', 2);
@@ -268,15 +269,16 @@ patch(Patch_k_Bounds, ...
     [Spectral_Flux.KE_Flux_max(:,1); ...
     flipud(Spectral_Flux.KE_Flux_min(:,1))]', ...
     'k', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
-xlabel('Wavenumber K (rad m^{-1})')
+xlabel('Wavenumber K')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
-title('SF_{Luu}')
+txt = {'SF_{Luu}-based', '\Pi_K^u estimates'};
+text(40, -1.8e-5 ,txt, fontsize=size_of_font*0.8)
 set(gca,'fontsize', size_of_font);
 
 % Third-order LLL SF
 
-subplot(1,3,3)
+subplot(2,6,5:6)
 Energy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.KE_Flux(:,1) ,'k-', 'Linewidth', 3);
 hold on
 semilogx(Spectral_Flux.Wavenumber,bessel_energy_LLL_Z,'r-', 'Linewidth', 2);
@@ -292,20 +294,18 @@ patch(Patch_k_Bounds, ...
     [Spectral_Flux.KE_Flux_max(:,1); ...
     flipud(Spectral_Flux.KE_Flux_min(:,1))]', ...
     'k', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
-xlabel('Wavenumber K (rad m^{-1})')
+xlabel('Wavenumber K')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
-title('SF_{LLL}')
+txt = {'SF_{LLL}-based', '\Pi_K^u estimates'};
+text(40, -1.8e-5 ,txt, fontsize=size_of_font*0.8)
 set(gca,'fontsize', size_of_font);
 
-%% SQG Buoyancy Variance Flux plots
-
-h7=figure(11)
-set(h7,'Position',[10 10 1500 500])
+% SQG Buoyancy Variance Flux plots
 
 % Advective buoyancy SFs
 
-subplot(1,2,1)
+subplot(2,6,8:9)
 ymin = -8e-6;
 ymax = 8e-6;
 Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.bb_Flux(:,1), 'k-', 'Linewidth', 3);
@@ -323,19 +323,17 @@ patch(Patch_k_Bounds, ...
     [Spectral_Flux.bb_Flux_max(:,1); ...
     flipud(Spectral_Flux.bb_Flux_min(:,1))]', ...
     'k', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
-ylabel('Spectral bb/2 flux (m^2 s^{-3})')
-legend([Enstrophy_Flux Bessel_SFadv_Flux ...
-    SFvort_Flux],'bb/2 Flux','Bessel Method', ...
-    'Basic Method' ,'Location','NorthWest');
-xlabel('Wavenumber K (rad m^{-1})')
+ylabel('\Pi_K^b')
+xlabel('Wavenumber K')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
-title('SF_{Ab}')
+txt = {'SF_{Ab}-based', '\Pi_K^b estimates'};
+text(40, -4e-6 ,txt, fontsize=size_of_font*0.8)
 set(gca,'fontsize', size_of_font);
 
 % Longitudinal - buoyancy - buoyancy third-order SF
 
-subplot(1,2,2)
+subplot(2,6,10:11)
 Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.bb_Flux(:,1), 'k-', 'Linewidth', 3);
 hold on
 semilogx(Spectral_Flux.Wavenumber,bessel_Halfbb_Lbb_Z,'r-', 'Linewidth', 2);
@@ -351,10 +349,11 @@ patch(Patch_k_Bounds, ...
     [Spectral_Flux.bb_Flux_max(:,1); ...
     flipud(Spectral_Flux.bb_Flux_min(:,1))]', ...
     'k', 'EdgeColor', 'none', 'FaceAlpha', 0.2)
-xlabel('Wavenumber K (rad m^{-1})')
+xlabel('Wavenumber K')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
-title('SF_{L b b}')
+txt = {'SF_{Lbb}-based', '\Pi_K^b estimates'};
+text(40, -4e-6 ,txt, fontsize=size_of_font*0.8)
 set(gca,'fontsize', size_of_font);
 
 %% Create simple plots for main paper text
@@ -364,7 +363,7 @@ set(h7,'Position',[10 10 1400 500])
 ymin = -2.5e-5;
 ymax = 1e-5;
 xmin = 0.7;
-xmax = 300;
+xmax = 250;
 
 % Advective velocity SFs
 
@@ -394,11 +393,11 @@ Energy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.KE_Flux ,'k-', 'Li
 plot([forcing_k, forcing_k], [ymin, ymax], 'k--', 'Linewidth', 2)
 plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 semilogx(K, mean(bessel_energy_adv_vel_alldirections, 3),'r-', 'Linewidth', 2);
-xlabel('Wavenumber K (rad m^{-1})')
-ylabel('Spectral Flux (m^2 s^{-3})')
+xlabel('Wavenumber K')
+ylabel('\Pi_K^u')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
-legend([Energy_Flux Bessel_SFveladv_Flux SFuadv_Flux],'Actual Flux','Bessel Method: SF_{Au}', ...
+legend([Energy_Flux Bessel_SFveladv_Flux SFuadv_Flux],'Fourier-estimated Flux','Bessel Method: SF_{Au}', ...
     'Traditional Method: SF_{Au}','Location','NorthEast');
 title("Kinetic Energy")
 set(gca,'fontsize', size_of_font);
@@ -434,10 +433,10 @@ Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.bb_Flux , 'k-',
 plot([forcing_k, forcing_k], [ymin, ymax], 'k--', 'Linewidth', 2)
 plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 semilogx(K, mean(bessel_Halfbb_adv_b_alldirections, 3),'r-', 'Linewidth', 2);
-ylabel('Spectral Flux (m^2 s^{-3})')
-legend([Enstrophy_Flux Bessel_SFbadv_Flux SFbadv_Flux],'Actual Flux','Bessel Method: SF_{Ab}', ...
+ylabel('\Pi_K^b')
+legend([Enstrophy_Flux Bessel_SFbadv_Flux SFbadv_Flux],'Fourier-estimated Flux','Bessel Method: SF_{Ab}', ...
     'Traditional Method: SF_{Ab}','Location','NorthWest');
-xlabel('Wavenumber K (rad m^{-1})')
+xlabel('Wavenumber K')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
 title("Buoyancy Variance")

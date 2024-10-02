@@ -279,7 +279,7 @@ plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 
 %semilogx(K, ...
  %   mean(bessel_energy_adv_vel_alldirections, 3),'r-', 'Linewidth', 2);
-ylabel('Spectral KE Flux (m^2 s^{-3})')
+ylabel('\Pi_K^u')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
 legend([Energy_Flux smallest_rmin largest_rmin], ...
@@ -316,7 +316,7 @@ plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 
 %semilogx(K, ...
  %   mean(bessel_energy_adv_vel_alldirections, 3),'r-', 'Linewidth', 2);
-ylabel('Spectral Flux (m^2 s^{-3})')
+ylabel('\Pi_K^u')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
 legend([Energy_Flux largest_rmax smallest_rmax], ...
@@ -375,9 +375,9 @@ plot([K_max(4), K_max(4)], [ymin, ymax], 'r--', 'Linewidth', 2)
 
 plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 
-ylabel('Spectral Flux (s^{-3} or m^2s^{-3})')
+ylabel('\Pi_K^{\omega}')
 
-xlabel('Wavenumber K (rad m^{-1})')
+xlabel('Wavenumber K')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
 
@@ -410,9 +410,9 @@ plot([K_min(4), K_min(4)], [ymin, ymax], 'r--', 'Linewidth', 2)
 
 plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 
-ylabel('Spectral Flux (s^{-3} or m^2s^{-3})')
+ylabel('\Pi_K^{\omega}')
 
-xlabel('Wavenumber K (rad m^{-1})')
+xlabel('Wavenumber K')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
 set(gca,'fontsize', size_of_font);
@@ -661,6 +661,7 @@ plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
  %   mean(bessel_energy_adv_vel_alldirections, 3),'r-', 'Linewidth', 2);
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
+ylabel('\Pi_K^u')
 %legend([KE_Flux Bessel_SFveladv_Flux], ...
 %    'Actual Flux','Bessel Method: SF_{Au}', ...
 %    'Location','NorthEast');
@@ -694,6 +695,7 @@ plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
  %   mean(bessel_energy_adv_vel_alldirections, 3),'r-', 'Linewidth', 2);
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
+ylabel('\Pi_K^u')
 %legend([KE_Flux Bessel_SFveladv_Flux], ...
 %    'Actual Flux','Bessel Method: SF_{Au}', ...
 %    'Location','NorthEast');
@@ -705,7 +707,7 @@ set(gca,'fontsize', size_of_font);
 ymin = -8e-6;
 ymax = 8e-6;
 
-% Advective bicity SFs
+% Advective buoyancy SFs
 
 bessel_Halfbb_adv_b_alldirections_rmin_cutoff = ...
     cat(3,bessel_Halfbb_adv_b_rmin_cutoff_Z, bessel_Halfbb_adv_b_rmin_cutoff_M, ...
@@ -734,7 +736,8 @@ plot([K_max(4), K_max(4)], [ymin, ymax], 'r--', 'Linewidth', 2)
 plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 
 
-xlabel('Wavenumber K (rad m^{-1})')
+xlabel('Wavenumber K')
+ylabel('\Pi_K^b')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
 legend([Halfbb_Flux ab], ...
@@ -760,7 +763,8 @@ plot([K_min(4), K_min(4)], [ymin, ymax], 'r--', 'Linewidth', 2)
 
 plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 
-xlabel('Wavenumber K (rad m^{-1})')
+xlabel('Wavenumber K')
+ylabel('\Pi_K^b')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
 set(gca,'fontsize', size_of_font);
@@ -1047,7 +1051,8 @@ plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 
 %semilogx(K, ...
  %   mean(bessel_energy_adv_vel_alldirections, 3),'r-', 'Linewidth', 2);
-xlabel('Wavenumber K (rad m^{-1})')
+xlabel('Wavenumber K')
+ylabel('\Pi_K^u')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
 %legend([KE_Flux Bessel_SFveladv_Flux], ...
@@ -1081,7 +1086,8 @@ plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 
 %semilogx(K, ...
  %   mean(bessel_energy_adv_vel_alldirections, 3),'r-', 'Linewidth', 2);
-xlabel('Wavenumber K (rad m^{-1})')
+xlabel('Wavenumber K')
+ylabel('\Pi_K^u')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
 %legend([KE_Flux Bessel_SFveladv_Flux], ...
@@ -1140,7 +1146,8 @@ plot([K_max(4), K_max(4)], [ymin, ymax], 'r--', 'Linewidth', 2)
 plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 
 
-xlabel('Wavenumber K (rad m^{-1})')
+xlabel('Wavenumber K')
+ylabel('\Pi_K^{\omega}')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
 legend([Enstrophy_Flux aomega au], ...
@@ -1171,7 +1178,8 @@ plot([K_min(4), K_min(4)], [ymin, ymax], 'r--', 'Linewidth', 2)
 
 plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 
-xlabel('Wavenumber K (rad m^{-1})')
+xlabel('Wavenumber K')
+ylabel('\Pi_K^{\omega}')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
 set(gca,'fontsize', size_of_font);
