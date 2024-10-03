@@ -50,6 +50,24 @@ Spectral_Flux.Energy_Flux_max = (quantile(Spectral_Flux.Energy_Flux_snapshots ..
 Spectral_Flux.Energy_Flux_min = (quantile(Spectral_Flux.Energy_Flux_snapshots ...
     ,1-quantiles,3));
 
+
+%% Load coarse-grained data (provided by Cassidy Wagner)
+
+EFlux_CG = ncread("./CoarseGrainedData/Anisotropic2D_n_2048_drag_0.04_order_-2_visc_1.0e-21_order_8"+ ...
+            "_kf_100.0_F_1.0e-5_betay_10.0_betax_0.0_coarsegrain_results.nc", 'EFlux_CG');
+
+EnstrophyFlux_CG = ncread("./CoarseGrainedData/Anisotropic2D_n_2048_drag_0.04_order_-2_visc_1.0e-21_order_8"+ ...
+            "_kf_100.0_F_1.0e-5_betay_10.0_betax_0.0_coarsegrain_results.nc", 'Enstrophy_CG');
+
+K_CG = ncread("./CoarseGrainedData/Anisotropic2D_n_2048_drag_0.04_order_-2_visc_1.0e-21_order_8"+ ...
+            "_kf_100.0_F_1.0e-5_betay_10.0_betax_0.0_coarsegrain_results.nc", 'K_coarse_grain');
+
+K_CG = K_CG/2; % Convert to wavenumber = pi/r rather than 2pi/r (empirically better fit)
+
+alpha = 0.5; % Greyness of coarse-grained flux lines
+
+
+
 %% Extract relevant structure functions
 
 Zonal.velveladv = Zonal.uuadv+Zonal.vvadv;
@@ -404,6 +422,8 @@ patch(Patch_k_Bounds, ...
 
 SFadv_vel_energy_Flux = semilogx(J_1_maximum./R_beta,-0.5*Along_beta.velveladv(:,1),'r--', 'Linewidth', 1);
 
+CG_Flux = semilogx(K_CG, EFlux_CG, 'color',[0,0,0]+alpha, 'Linewidth', 1);
+
 Energy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.Energy_Flux ,'k-', 'Linewidth', 5);
 Bessel_SFveladv_Flux = semilogx(K, ...
     mean(bessel_energy_adv_vel_alldirections, 3),'r-', 'Linewidth', 2);
@@ -417,9 +437,9 @@ xlabel('Wavenumber K')
 ylabel('\Pi_K^u')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
-legend([Energy_Flux Bessel_SFveladv_Flux SFadv_vel_energy_Flux], ...
+legend([Energy_Flux Bessel_SFveladv_Flux SFadv_vel_energy_Flux CG_Flux], ...
     'Fourier-estimated Flux','Bessel Method: SF_{Au}','Traditional Method: SF_{Au}',...
-    'Location','NorthEast');
+    'Coarse-graining','Location','NorthEast');
 title("Kinetic Energy")
 set(gca,'fontsize', size_of_font);
 
@@ -468,6 +488,8 @@ SFvort_enstrophy_Flux = semilogx(J_1_maximum./R_beta,-0.5*Along_beta.vortvortadv
 
 SFvel_enstrophy_Flux = semilogx(J_2_3_function_minimum./R_beta,2*Along_beta.velveladv(:,1)./(R_beta.^2),'b--', 'Linewidth', 1);
 
+semilogx(K_CG, EnstrophyFlux_CG, 'color',[0,0,0]+alpha, 'Linewidth', 1);
+
 Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.Enstrophy_Flux , 'k-', 'Linewidth', 5);
 plot([forcing_k, forcing_k], [ymin, ymax], 'k--', 'Linewidth', 2)
 %plot([max_energy_cascade_k, max_energy_cascade_k], [ymin, ymax], 'k--', 'Linewidth', 2)
@@ -476,8 +498,8 @@ plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 semilogx(K, mean(bessel_enstrophy_adv_vort_alldirections, 3),'r-', 'Linewidth', 2);
 
 ylabel('\Pi^{\omega}_K')
-legend([Enstrophy_Flux Bessel_SFvortadv_Flux Bessel_SFveladv_Flux SFvort_enstrophy_Flux SFvel_enstrophy_Flux], ...
-    'Fourier-estimated Flux','Bessel Method: SF_{A\omega}', ...
+legend([Bessel_SFvortadv_Flux Bessel_SFveladv_Flux SFvort_enstrophy_Flux SFvel_enstrophy_Flux], ...
+    'Bessel Method: SF_{A\omega}', ...
     'Bessel Method: SF_{Au}', 'Traditional Method: SF_{A\omega}', ...
     'Traditional Method: SF_{Au}','Location','NorthWest');
 xlabel('Wavenumber K')
