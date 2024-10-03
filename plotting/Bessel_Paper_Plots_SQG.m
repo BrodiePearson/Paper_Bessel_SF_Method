@@ -406,6 +406,7 @@ patch(Patch_k_Bounds, ...
 SFuadv_Flux = semilogx(J_1_maximum./R_beta,-0.5*Along_beta.velveladv(:,1),'r--', 'Linewidth', 1);
 
 CG_Flux = semilogx(K_CG, EFlux_CG,'color', [0,0,0]+alpha, 'Linewidth', 1);
+%CG_Flux = semilogx(K_CG, EFlux_CG,'ko');
 
 Energy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.KE_Flux ,'k-', 'Linewidth', 5);
 plot([forcing_k, forcing_k], [ymin, ymax], 'k--', 'Linewidth', 2)
