@@ -422,7 +422,7 @@ patch(Patch_k_Bounds, ...
 
 SFadv_vel_energy_Flux = semilogx(J_1_maximum./R_beta,-0.5*Along_beta.velveladv(:,1),'r--', 'Linewidth', 1);
 
-CG_Flux = semilogx(K_CG, EFlux_CG, 'color',[0,0,0]+alpha, 'Linewidth', 1);
+CG_Flux = semilogx(K_CG, EFlux_CG, 'r:', 'Linewidth', 2);
 
 Energy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.Energy_Flux ,'k-', 'Linewidth', 5);
 Bessel_SFveladv_Flux = semilogx(K, ...
@@ -439,7 +439,7 @@ ylim([ymin, ymax]);
 xlim([xmin, xmax]);
 legend([Energy_Flux Bessel_SFveladv_Flux SFadv_vel_energy_Flux CG_Flux], ...
     'Fourier-estimated Flux','Bessel Method: SF_{Au}','Traditional Method: SF_{Au}',...
-    'Coarse-graining','Location','NorthEast');
+    'Coarse-graining ({\bfu\rm})','Location','NorthEast');
 title("Kinetic Energy")
 set(gca,'fontsize', size_of_font);
 
@@ -488,7 +488,7 @@ SFvort_enstrophy_Flux = semilogx(J_1_maximum./R_beta,-0.5*Along_beta.vortvortadv
 
 SFvel_enstrophy_Flux = semilogx(J_2_3_function_minimum./R_beta,2*Along_beta.velveladv(:,1)./(R_beta.^2),'b--', 'Linewidth', 1);
 
-semilogx(K_CG, EnstrophyFlux_CG, 'color',[0,0,0]+alpha, 'Linewidth', 1);
+CG_Flux = semilogx(K_CG, EnstrophyFlux_CG, 'r:', 'Linewidth', 2);
 
 Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.Enstrophy_Flux , 'k-', 'Linewidth', 5);
 plot([forcing_k, forcing_k], [ymin, ymax], 'k--', 'Linewidth', 2)
@@ -498,10 +498,10 @@ plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 semilogx(K, mean(bessel_enstrophy_adv_vort_alldirections, 3),'r-', 'Linewidth', 2);
 
 ylabel('\Pi^{\omega}_K')
-legend([Bessel_SFvortadv_Flux Bessel_SFveladv_Flux SFvort_enstrophy_Flux SFvel_enstrophy_Flux], ...
-    'Bessel Method: SF_{A\omega}', ...
+legend([Enstrophy_Flux Bessel_SFvortadv_Flux Bessel_SFveladv_Flux SFvort_enstrophy_Flux SFvel_enstrophy_Flux CG_Flux], ...
+    'Fourier-estimated Flux', 'Bessel Method: SF_{A\omega}', ...
     'Bessel Method: SF_{Au}', 'Traditional Method: SF_{A\omega}', ...
-    'Traditional Method: SF_{Au}','Location','NorthWest');
+    'Traditional Method: SF_{Au}', 'Coarse-graining (\omega)','Location','NorthWest');
 xlabel('Wavenumber K')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);

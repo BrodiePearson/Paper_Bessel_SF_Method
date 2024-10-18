@@ -405,7 +405,7 @@ patch(Patch_k_Bounds, ...
 
 SFuadv_Flux = semilogx(J_1_maximum./R_beta,-0.5*Along_beta.velveladv(:,1),'r--', 'Linewidth', 1);
 
-CG_Flux = semilogx(K_CG, EFlux_CG,'color', [0,0,0]+alpha, 'Linewidth', 1);
+CG_Flux = semilogx(K_CG, EFlux_CG, 'r:', 'Linewidth', 2);
 %CG_Flux = semilogx(K_CG, EFlux_CG,'ko');
 
 Energy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.KE_Flux ,'k-', 'Linewidth', 5);
@@ -417,7 +417,7 @@ ylabel('\Pi_K^u')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);
 legend([Energy_Flux Bessel_SFveladv_Flux SFuadv_Flux CG_Flux],'Fourier-estimated Flux','Bessel Method: SF_{Au}', ...
-    'Traditional Method: SF_{Au}', 'Coarse-graining','Location','SouthEast');
+    'Traditional Method: SF_{Au}', 'Coarse-graining ({\bfu\rm})','Location','SouthEast');
 title("Kinetic Energy")
 set(gca,'fontsize', size_of_font);
 
@@ -448,15 +448,15 @@ patch(Patch_k_Bounds, ...
 
 SFbadv_Flux = semilogx(J_1_maximum./R_beta,-0.5*Along_beta.bbadv(:,1),'r--', 'Linewidth', 1);
 
-semilogx(K_CG, BFlux_CG, 'color',[0,0,0]+alpha, 'Linewidth', 1);
+CG_Flux = semilogx(K_CG, BFlux_CG, 'r:', 'Linewidth', 2);
 
 Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.bb_Flux , 'k-', 'Linewidth', 5);
 plot([forcing_k, forcing_k], [ymin, ymax], 'k--', 'Linewidth', 2)
 plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 semilogx(K, mean(bessel_Halfbb_adv_b_alldirections, 3),'r-', 'Linewidth', 2);
 ylabel('\Pi_K^b')
-legend([Bessel_SFbadv_Flux SFbadv_Flux],'Bessel Method: SF_{Ab}', ...
-    'Traditional Method: SF_{Ab}','Location','NorthWest');
+legend([Enstrophy_Flux Bessel_SFbadv_Flux SFbadv_Flux CG_Flux],'Fourier-estimated Flux', 'Bessel Method: SF_{Ab}', ...
+    'Traditional Method: SF_{Ab}', 'Coarse-graining (b)', 'Location','SouthEast');
 xlabel('Wavenumber K')
 ylim([ymin, ymax]);
 xlim([xmin, xmax]);

@@ -491,7 +491,7 @@ SFadv_Flux = semilogx(J_1_maximum./R_beta,-0.5*Along_beta.velveladv(:,layer_no),
 
 Energy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.KE_Flux(:,layer_no) ,'k-', 'Linewidth', 5);
 
-CG_Flux = semilogx(K_CG, EFlux_CG, 'color',[0,0,0]+alpha, 'Linewidth', 1);
+CG_Flux = semilogx(K_CG, EFlux_CG, 'r:', 'Linewidth', 2);
 
 plot([Rossby_deformation_k, Rossby_deformation_k], [ymin, ymax], 'k--', 'Linewidth', 2)
 plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
@@ -503,7 +503,7 @@ title("Kinetic Energy")
 %title("Kinetic Energy (Layer "+layer_no+")")
 set(gca,'fontsize', size_of_font);
 legend([Energy_Flux Bessel_SFveladv_Flux SFadv_Flux CG_Flux],'Fourier-estimated Flux','Bessel Method: SF_{Au}', ...
-    'Traditional Method: SF_{Au}','Coarse-graining','Location', 'SouthEast', 'fontsize', legend_font_size);
+    'Traditional Method: SF_{Au}','Coarse-graining ({\bfu\rm})','Location', 'SouthEast', 'fontsize', legend_font_size);
 
 
 ymin = -2e5;
@@ -543,14 +543,14 @@ patch(Patch_k_Bounds, ...
 
 SF_qadv_Flux = semilogx(J_1_maximum./R_beta,-0.5*Along_beta.qqadv(:,layer_no),'r--', 'Linewidth', 1);
 
-semilogx(K_CG, PotentialEnstrophyFlux_CG, 'color',[0,0,0]+alpha, 'Linewidth', 1);
+CG_Flux = semilogx(K_CG, PotentialEnstrophyFlux_CG, 'r:', 'Linewidth', 2);
 
 QG_Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.qq_Flux(:,layer_no), 'k-', 'Linewidth', 5);
 plot([Rossby_deformation_k, Rossby_deformation_k], [ymin, ymax], 'k--', 'Linewidth', 2)
 plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 ylabel('\Pi^q_K')
-legend([Bessel_SFqadv_Flux SF_qadv_Flux],'Bessel Method: SF_{Aq}', ...
-    'Traditional Method: SF_{Aq}', ...
+legend([QG_Enstrophy_Flux Bessel_SFqadv_Flux SF_qadv_Flux CG_Flux],'Fourier-estimated Flux', 'Bessel Method: SF_{Aq}', ...
+    'Traditional Method: SF_{Aq}', 'Coarse-graining (q)', ...
     'Location','South', 'fontsize', legend_font_size);
 xlabel('Wavenumber K')
 ylim([ymin, ymax]);
@@ -589,7 +589,7 @@ patch(Patch_k_Bounds, ...
 SF_vortadv_Flux = semilogx(J_1_maximum./R_beta,-0.5*Along_beta.vortvortadv(:,layer_no),'r--', 'Linewidth', 1);
 SF_veladv_Flux = semilogx(J_1_maximum./R_beta, 2*Along_beta.velveladv(:,layer_no)./(R_beta.^2),'b--', 'Linewidth', 1);
 
-semilogx(K_CG, EnstrophyFlux_CG, 'color',[0,0,0]+alpha, 'Linewidth', 1);
+CG_Flux = semilogx(K_CG, EnstrophyFlux_CG, 'r:', 'Linewidth', 2);
 
 Enstrophy_Flux = semilogx(Spectral_Flux.Wavenumber,Spectral_Flux.vortvort_Flux(:,layer_no), 'k-', 'Linewidth', 5);
 plot([Rossby_deformation_k, Rossby_deformation_k], [ymin, ymax], 'k--', 'Linewidth', 2)
@@ -597,8 +597,8 @@ plot([xmin, xmax], [0, 0], 'k-', 'Linewidth', 1)
 
 semilogx(K, mean(bessel_enstrophy_adv_vort_alldirections, 3),'r-', 'Linewidth', 2);
 ylabel('\Pi^{\omega}_K')
-legend([Bessel_SFvortadv_Flux Bessel_SFveladv_Flux SF_vortadv_Flux SF_veladv_Flux], 'Bessel Method: SF_{A\omega}' , ...
-    'Bessel Method: SF_{Au}' , 'Traditional Method: SF_{A\omega}' , 'Traditional Method: SF_{Au}' , 'Coarse-graining', ...
+legend([Enstrophy_Flux Bessel_SFvortadv_Flux Bessel_SFveladv_Flux SF_vortadv_Flux SF_veladv_Flux CG_Flux], 'Fourier-estimated Flux', 'Bessel Method: SF_{A\omega}' , ...
+    'Bessel Method: SF_{Au}' , 'Traditional Method: SF_{A\omega}' , 'Traditional Method: SF_{Au}' , 'Coarse-graining (\omega)', ...
     'Location','NorthWest', 'fontsize', legend_font_size);
 xlabel('Wavenumber K')
 ylim([ymin, ymax]);
